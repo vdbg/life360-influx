@@ -17,8 +17,12 @@ class Member:
         self.address: str = self.__add_strings(location["address1"], location["address2"])
 
     def __add_strings(self, s1: str, s2: str) -> str:
+        if not s2 and not s1:
+            return ""
         if not s2:
             return s1
+        if not s1:
+            return s2
         return s1 + " " + s2
 
     def __get_time(self, data: dict, key: str) -> datetime:
@@ -36,9 +40,6 @@ class Circle:
 
     def __str__(self) -> str:
         return f"{self.name} circle ({self.id})"
-
-    def get_measurements(self) -> list:
-        return None
 
 
 class Life360Connector:
