@@ -1,0 +1,652 @@
+{
+    "annotations": {
+        "list": [
+            {
+                "builtIn": 1,
+                "datasource": {
+                    "type": "grafana",
+                    "uid": "-- Grafana --"
+                },
+                "enable": true,
+                "hide": true,
+                "iconColor": "rgba(0, 211, 255, 1)",
+                "name": "Annotations & Alerts",
+                "target": {
+                    "limit": 100,
+                    "matchAny": false,
+                    "tags": [],
+                    "type": "dashboard"
+                },
+                "type": "dashboard"
+            }
+        ]
+    },
+    "editable": true,
+    "fiscalYearStartMonth": 0,
+    "graphTooltip": 0,
+    "id": 11,
+    "links": [],
+    "liveNow": false,
+    "panels": [
+        {
+            "datasource": {
+                "type": "influxdb",
+                "uid": "64PB7atVk"
+            },
+            "fieldConfig": {
+                "defaults": {
+                    "color": {
+                        "mode": "thresholds"
+                    },
+                    "custom": {
+                        "hideFrom": {
+                            "legend": false,
+                            "tooltip": false,
+                            "viz": false
+                        }
+                    },
+                    "mappings": [],
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "green",
+                                "value": null
+                            },
+                            {
+                                "color": "red",
+                                "value": 80
+                            }
+                        ]
+                    }
+                },
+                "overrides": []
+            },
+            "gridPos": {
+                "h": 12,
+                "w": 12,
+                "x": 0,
+                "y": 0
+            },
+            "id": 2,
+            "options": {
+                "basemap": {
+                    "config": {},
+                    "name": "Layer 0",
+                    "type": "default"
+                },
+                "controls": {
+                    "mouseWheelZoom": true,
+                    "showAttribution": true,
+                    "showDebug": false,
+                    "showMeasure": false,
+                    "showScale": false,
+                    "showZoom": true
+                },
+                "layers": [
+                    {
+                        "config": {
+                            "blur": 15,
+                            "radius": 5,
+                            "weight": {
+                                "fixed": 1,
+                                "max": 1,
+                                "min": 0
+                            }
+                        },
+                        "filterData": {
+                            "id": "byRefId",
+                            "options": "A"
+                        },
+                        "location": {
+                            "latitude": "latitude",
+                            "longitude": "longitude",
+                            "mode": "coords"
+                        },
+                        "name": "pipo",
+                        "tooltip": true,
+                        "type": "heatmap"
+                    }
+                ],
+                "tooltip": {
+                    "mode": "details"
+                },
+                "view": {
+                    "allLayers": true,
+                    "id": "coords",
+                    "lat": 46.805154,
+                    "lon": -45.699281,
+                    "zoom": 2
+                }
+            },
+            "pluginVersion": "9.3.2",
+            "targets": [
+                {
+                    "datasource": {
+                        "type": "influxdb",
+                        "uid": "64PB7atVk"
+                    },
+                    "groupBy": [
+                        {
+                            "params": [
+                                "$__interval"
+                            ],
+                            "type": "time"
+                        },
+                        {
+                            "params": [
+                                "name"
+                            ],
+                            "type": "tag"
+                        },
+                        {
+                            "params": [
+                                "null"
+                            ],
+                            "type": "fill"
+                        }
+                    ],
+                    "measurement": "location",
+                    "orderByTime": "ASC",
+                    "policy": "default",
+                    "query": "from(bucket: \"Life360\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"location\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"latitude\" or r[\"_field\"] == \"longitude\")\r\n  |> filter(fn: (r) => r[\"circle\"] == \"Name_Of_Circle\")\r\n  |> filter(fn: (r) => r[\"name\"] == \"Member_1\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> pivot(rowKey: [\"_time\"], columnKey: [\"_field\"], valueColumn: \"_value\")\r\n  |> drop(columns: [\"_start\", \"_stop\", \"circle\", \"name\"])\r\n  |> yield(name: \"count\")",
+                    "refId": "A",
+                    "resultFormat": "time_series",
+                    "select": [
+                        [
+                            {
+                                "params": [
+                                    "value"
+                                ],
+                                "type": "field"
+                            },
+                            {
+                                "params": [],
+                                "type": "mean"
+                            }
+                        ]
+                    ],
+                    "tags": [
+                        {
+                            "key": "circle",
+                            "operator": "=",
+                            "value": "Family"
+                        }
+                    ]
+                }
+            ],
+            "title": "Member_1",
+            "transformations": [],
+            "type": "geomap"
+        },
+        {
+            "datasource": {
+                "type": "influxdb",
+                "uid": "64PB7atVk"
+            },
+            "fieldConfig": {
+                "defaults": {
+                    "color": {
+                        "mode": "thresholds"
+                    },
+                    "custom": {
+                        "hideFrom": {
+                            "legend": false,
+                            "tooltip": false,
+                            "viz": false
+                        }
+                    },
+                    "mappings": [],
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "green",
+                                "value": null
+                            },
+                            {
+                                "color": "red",
+                                "value": 80
+                            }
+                        ]
+                    }
+                },
+                "overrides": []
+            },
+            "gridPos": {
+                "h": 12,
+                "w": 12,
+                "x": 12,
+                "y": 0
+            },
+            "id": 5,
+            "options": {
+                "basemap": {
+                    "config": {},
+                    "name": "Layer 0",
+                    "type": "default"
+                },
+                "controls": {
+                    "mouseWheelZoom": true,
+                    "showAttribution": true,
+                    "showDebug": false,
+                    "showMeasure": false,
+                    "showScale": false,
+                    "showZoom": true
+                },
+                "layers": [
+                    {
+                        "config": {
+                            "blur": 15,
+                            "radius": 5,
+                            "weight": {
+                                "fixed": 1,
+                                "max": 1,
+                                "min": 0
+                            }
+                        },
+                        "filterData": {
+                            "id": "byRefId",
+                            "options": "A"
+                        },
+                        "location": {
+                            "latitude": "latitude",
+                            "longitude": "longitude",
+                            "mode": "coords"
+                        },
+                        "name": "pipo",
+                        "tooltip": true,
+                        "type": "heatmap"
+                    }
+                ],
+                "tooltip": {
+                    "mode": "details"
+                },
+                "view": {
+                    "allLayers": true,
+                    "id": "coords",
+                    "lat": 46.805154,
+                    "lon": -45.699281,
+                    "zoom": 2
+                }
+            },
+            "pluginVersion": "9.3.2",
+            "targets": [
+                {
+                    "datasource": {
+                        "type": "influxdb",
+                        "uid": "64PB7atVk"
+                    },
+                    "groupBy": [
+                        {
+                            "params": [
+                                "$__interval"
+                            ],
+                            "type": "time"
+                        },
+                        {
+                            "params": [
+                                "name"
+                            ],
+                            "type": "tag"
+                        },
+                        {
+                            "params": [
+                                "null"
+                            ],
+                            "type": "fill"
+                        }
+                    ],
+                    "measurement": "location",
+                    "orderByTime": "ASC",
+                    "policy": "default",
+                    "query": "from(bucket: \"Life360\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"location\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"latitude\" or r[\"_field\"] == \"longitude\")\r\n  |> filter(fn: (r) => r[\"circle\"] == \"Name_Of_Circle\")\r\n  |> filter(fn: (r) => r[\"name\"] == \"Member_3\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> pivot(rowKey: [\"_time\"], columnKey: [\"_field\"], valueColumn: \"_value\")\r\n  |> drop(columns: [\"_start\", \"_stop\", \"circle\", \"name\"])\r\n  |> yield(name: \"count\")",
+                    "refId": "A",
+                    "resultFormat": "time_series",
+                    "select": [
+                        [
+                            {
+                                "params": [
+                                    "value"
+                                ],
+                                "type": "field"
+                            },
+                            {
+                                "params": [],
+                                "type": "mean"
+                            }
+                        ]
+                    ],
+                    "tags": [
+                        {
+                            "key": "circle",
+                            "operator": "=",
+                            "value": "Family"
+                        }
+                    ]
+                }
+            ],
+            "title": "Member_3",
+            "transformations": [],
+            "type": "geomap"
+        },
+        {
+            "datasource": {
+                "type": "influxdb",
+                "uid": "64PB7atVk"
+            },
+            "fieldConfig": {
+                "defaults": {
+                    "color": {
+                        "mode": "thresholds"
+                    },
+                    "custom": {
+                        "hideFrom": {
+                            "legend": false,
+                            "tooltip": false,
+                            "viz": false
+                        }
+                    },
+                    "mappings": [],
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "green",
+                                "value": null
+                            },
+                            {
+                                "color": "red",
+                                "value": 80
+                            }
+                        ]
+                    }
+                },
+                "overrides": []
+            },
+            "gridPos": {
+                "h": 12,
+                "w": 12,
+                "x": 0,
+                "y": 12
+            },
+            "id": 4,
+            "options": {
+                "basemap": {
+                    "config": {},
+                    "name": "Layer 0",
+                    "type": "default"
+                },
+                "controls": {
+                    "mouseWheelZoom": true,
+                    "showAttribution": true,
+                    "showDebug": false,
+                    "showMeasure": false,
+                    "showScale": false,
+                    "showZoom": true
+                },
+                "layers": [
+                    {
+                        "config": {
+                            "blur": 15,
+                            "radius": 5,
+                            "weight": {
+                                "fixed": 1,
+                                "max": 1,
+                                "min": 0
+                            }
+                        },
+                        "filterData": {
+                            "id": "byRefId",
+                            "options": "A"
+                        },
+                        "location": {
+                            "latitude": "latitude",
+                            "longitude": "longitude",
+                            "mode": "coords"
+                        },
+                        "name": "pipo",
+                        "tooltip": true,
+                        "type": "heatmap"
+                    }
+                ],
+                "tooltip": {
+                    "mode": "details"
+                },
+                "view": {
+                    "allLayers": true,
+                    "id": "coords",
+                    "lat": 46.805154,
+                    "lon": -45.699281,
+                    "zoom": 2
+                }
+            },
+            "pluginVersion": "9.3.2",
+            "targets": [
+                {
+                    "datasource": {
+                        "type": "influxdb",
+                        "uid": "64PB7atVk"
+                    },
+                    "groupBy": [
+                        {
+                            "params": [
+                                "$__interval"
+                            ],
+                            "type": "time"
+                        },
+                        {
+                            "params": [
+                                "name"
+                            ],
+                            "type": "tag"
+                        },
+                        {
+                            "params": [
+                                "null"
+                            ],
+                            "type": "fill"
+                        }
+                    ],
+                    "measurement": "location",
+                    "orderByTime": "ASC",
+                    "policy": "default",
+                    "query": "from(bucket: \"Life360\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"location\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"latitude\" or r[\"_field\"] == \"longitude\")\r\n  |> filter(fn: (r) => r[\"circle\"] == \"Name_Of_Circle\")\r\n  |> filter(fn: (r) => r[\"name\"] == \"Member_2\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> pivot(rowKey: [\"_time\"], columnKey: [\"_field\"], valueColumn: \"_value\")\r\n  |> drop(columns: [\"_start\", \"_stop\", \"circle\", \"name\"])\r\n  |> yield(name: \"count\")",
+                    "refId": "A",
+                    "resultFormat": "time_series",
+                    "select": [
+                        [
+                            {
+                                "params": [
+                                    "value"
+                                ],
+                                "type": "field"
+                            },
+                            {
+                                "params": [],
+                                "type": "mean"
+                            }
+                        ]
+                    ],
+                    "tags": [
+                        {
+                            "key": "circle",
+                            "operator": "=",
+                            "value": "Family"
+                        }
+                    ]
+                }
+            ],
+            "title": "Member_2",
+            "transformations": [],
+            "type": "geomap"
+        },
+        {
+            "datasource": {
+                "type": "influxdb",
+                "uid": "64PB7atVk"
+            },
+            "fieldConfig": {
+                "defaults": {
+                    "color": {
+                        "mode": "thresholds"
+                    },
+                    "custom": {
+                        "hideFrom": {
+                            "legend": false,
+                            "tooltip": false,
+                            "viz": false
+                        }
+                    },
+                    "mappings": [],
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "green",
+                                "value": null
+                            },
+                            {
+                                "color": "red",
+                                "value": 80
+                            }
+                        ]
+                    }
+                },
+                "overrides": []
+            },
+            "gridPos": {
+                "h": 12,
+                "w": 12,
+                "x": 12,
+                "y": 12
+            },
+            "id": 3,
+            "options": {
+                "basemap": {
+                    "config": {},
+                    "name": "Layer 0",
+                    "type": "default"
+                },
+                "controls": {
+                    "mouseWheelZoom": true,
+                    "showAttribution": true,
+                    "showDebug": false,
+                    "showMeasure": false,
+                    "showScale": false,
+                    "showZoom": true
+                },
+                "layers": [
+                    {
+                        "config": {
+                            "blur": 15,
+                            "radius": 5,
+                            "weight": {
+                                "fixed": 1,
+                                "max": 1,
+                                "min": 0
+                            }
+                        },
+                        "filterData": {
+                            "id": "byRefId",
+                            "options": "A"
+                        },
+                        "location": {
+                            "latitude": "latitude",
+                            "longitude": "longitude",
+                            "mode": "coords"
+                        },
+                        "name": "pipo",
+                        "tooltip": true,
+                        "type": "heatmap"
+                    }
+                ],
+                "tooltip": {
+                    "mode": "details"
+                },
+                "view": {
+                    "allLayers": true,
+                    "id": "coords",
+                    "lat": 46.805154,
+                    "lon": -45.699281,
+                    "zoom": 2
+                }
+            },
+            "pluginVersion": "9.3.2",
+            "targets": [
+                {
+                    "datasource": {
+                        "type": "influxdb",
+                        "uid": "64PB7atVk"
+                    },
+                    "groupBy": [
+                        {
+                            "params": [
+                                "$__interval"
+                            ],
+                            "type": "time"
+                        },
+                        {
+                            "params": [
+                                "name"
+                            ],
+                            "type": "tag"
+                        },
+                        {
+                            "params": [
+                                "null"
+                            ],
+                            "type": "fill"
+                        }
+                    ],
+                    "measurement": "location",
+                    "orderByTime": "ASC",
+                    "policy": "default",
+                    "query": "from(bucket: \"Life360\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"location\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"latitude\" or r[\"_field\"] == \"longitude\")\r\n  |> filter(fn: (r) => r[\"circle\"] == \"Name_Of_Circle\")\r\n  |> filter(fn: (r) => r[\"name\"] == \"Member_4\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> pivot(rowKey: [\"_time\"], columnKey: [\"_field\"], valueColumn: \"_value\")\r\n  |> drop(columns: [\"_start\", \"_stop\", \"circle\", \"name\"])\r\n  |> yield(name: \"count\")",
+                    "refId": "A",
+                    "resultFormat": "time_series",
+                    "select": [
+                        [
+                            {
+                                "params": [
+                                    "value"
+                                ],
+                                "type": "field"
+                            },
+                            {
+                                "params": [],
+                                "type": "mean"
+                            }
+                        ]
+                    ],
+                    "tags": [
+                        {
+                            "key": "circle",
+                            "operator": "=",
+                            "value": "Family"
+                        }
+                    ]
+                }
+            ],
+            "title": "Member_4",
+            "transformations": [],
+            "type": "geomap"
+        }
+    ],
+    "schemaVersion": 37,
+    "style": "dark",
+    "tags": [],
+    "templating": {
+        "list": []
+    },
+    "time": {
+        "from": "now-2d",
+        "to": "now"
+    },
+    "timepicker": {},
+    "timezone": "",
+    "title": "Life360",
+    "uid": "0FH-n-t4k",
+    "version": 3,
+    "weekStart": ""
+}
