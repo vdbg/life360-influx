@@ -9,12 +9,17 @@ import logging
 class Member:
     def __init__(self, conf: dict) -> None:
         self.name = self.__add_strings(conf["firstName"], conf["lastName"])
+        self.has_location = False
         location: dict = conf["location"]
+        if not location:
+            logging.error(f"No location for {self.name}. Location sharing paused?")
+            return
         self.latitude: float = float(location["latitude"])
         self.longitude: float = float(location["longitude"])
         self.start: datetime = self.__get_time(location, "startTimestamp")
         self.end: datetime = self.__get_time(location, "endTimestamp")
         self.address: str = self.__add_strings(location["address1"], location["address2"])
+        self.has_location = True
 
     def __add_strings(self, s1: str, s2: str) -> str:
         if not s2 and not s1:
@@ -37,6 +42,7 @@ class Circle:
         self.id = conf["id"]
         self.name: str = conf["name"]
         self.members: list[Member] = [Member(x) for x in conf["members"]]
+        self.members = [x for x in self.members if x.has_location]
 
     def __str__(self) -> str:
         return f"{self.name} circle ({self.id})"
