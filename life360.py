@@ -9,10 +9,10 @@ import logging
 class Member:
     def __init__(self, conf: dict) -> None:
         self.name = self.__add_strings(conf["firstName"], conf["lastName"])
-        self.has_location = False
+        self.has_location: bool = False
         location: dict = conf["location"]
         if not location:
-            logging.error(f"No location for {self.name}. Location sharing paused?")
+            logging.warning(f"No location for {self.name}. Location sharing paused?")
             return
         self.latitude: float = float(location["latitude"])
         self.longitude: float = float(location["longitude"])
