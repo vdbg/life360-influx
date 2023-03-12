@@ -17,8 +17,9 @@ bucket = "Life360"             # Name of available bucket
 token = "super-secret-token"   # Token with write permission to bucket
 org = "your org in influx"     # Org of the bucket
 measurement = "location"       # Name to give to measurements
+no_op = false                  # Set to true for testing, in which case connection is tested but records are not imported
 
 [main]
-logverbosity = "INFO" # By increasing level of verbosity = FATAL, ERROR, WARNING, INFO, DEBUG.
-loop_seconds = 180    # Time to wait between two queries to Life360's backend. 0 to only query once
+log_verbosity = "INFO" # By increasing level of verbosity = FATAL, ERROR, WARNING, INFO, DEBUG.
+loop_seconds = 180     # Time to wait between two queries to Life360's backend. 0 to only query once
 
