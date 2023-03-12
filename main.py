@@ -43,7 +43,7 @@ try:
     config = get_config()
 
     main_conf = config["main"]
-    logging.getLogger().setLevel(logging.getLevelName(main_conf["logverbosity"]))
+    logging.getLogger().setLevel(logging.getLevelName(main_conf["log_verbosity"]))
     loop_seconds: int = main_conf["loop_seconds"]
 
     influxConnector = InfluxConnector(config["influx"])
@@ -51,7 +51,7 @@ try:
 
     while True:
         try:
-            influxConnector.add_samples(life360Connector.get_records("location"))
+            influxConnector.add_samples(life360Connector.get_records(influxConnector.measurement))
         except Exception as e:
             logging.exception(e)
 

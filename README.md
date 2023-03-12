@@ -48,6 +48,6 @@ Dependency: Python 3.11+ and pip3 installed. `sudo apt-get install python3-pip` 
 
 To get a dashboard similar to the below one, download the [template](grafana/dashboard.json), and replace these placeholders before creating a dashboard from the template:
 * `Name_Of_Circle`: name of the Life360 circle of interest, e.g. `Family`,
-* `Member_1` to `Member_4`: names of the circle members of interest. Delete extra dashboards if fewer than 4 members, duplicate one if more.
+* `Member_1` to `Member_4`: names of the circle members of interest. Delete extra panels if fewer than 4 members, duplicate one if more.
 
 ![Grafana dashboard](grafana/dashboard.png)

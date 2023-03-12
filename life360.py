@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime, timezone
 import requests
 import logging
 
@@ -31,7 +31,7 @@ class Member:
         return s1 + " " + s2
 
     def __get_time(self, data: dict, key: str) -> datetime:
-        return datetime.datetime.fromtimestamp(int(data[key]), tz=datetime.timezone.utc)
+        return datetime.fromtimestamp(int(data[key]), tz=timezone.utc)
 
     def __str__(self) -> str:
         return f"{self.name} member at {self.address} ({self.latitude},{self.longitude}) from {self.start} to {self.end}"
@@ -58,7 +58,7 @@ class Life360Connector:
         self.circle_url: str = conf["circle_url"]
         self.token_url: str = conf["token_url"]
         self.circle_ids: list[str] = conf["circle_ids"]
-        self.access_token: str = None
+        self.access_token: str = ""
 
     def __get_headers(self, auth: str) -> dict:
         return {
@@ -75,7 +75,7 @@ class Life360Connector:
             return r.json()
         except:
             if retry:
-                self.access_token = None
+                self.access_token = ""
                 self.authenticate(True)
                 return self.__make_request(url, False)
             raise
@@ -90,7 +90,7 @@ class Life360Connector:
             "password": self.password,
         }
 
-        self.access_token = None
+        self.access_token = ""
         try:
             r = requests.post(self.base_url + self.token_url, data=data, headers=self.__get_headers("Basic " + self.auth_token))
             r.raise_for_status()
