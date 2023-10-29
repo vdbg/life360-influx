@@ -51,6 +51,7 @@ class Circle:
 class Life360Connector:
     def __init__(self, conf: dict) -> None:
         self.auth_token: str = conf["auth_token"]
+        self.user_agent: str = conf["user_agent"]
         self.username: str = conf["username"]
         self.password: str = conf["password"]
         self.base_url: str = conf["base_url"]
@@ -65,6 +66,7 @@ class Life360Connector:
             "Accept": "application/json",
             "Authorization": auth,
             "cache-control": "no-cache",
+            "user-agent": self.user_agent,
         }
 
     def __make_request(self, url, retry: bool = True):
@@ -84,11 +86,7 @@ class Life360Connector:
         if self.access_token and not force:
             return
 
-        data = {
-            "grant_type": "password",
-            "username": self.username,
-            "password": self.password,
-        }
+        data = {"grant_type": "password", "username": self.username, "password": self.password}
 
         self.access_token = ""
         try:
@@ -96,7 +94,7 @@ class Life360Connector:
             r.raise_for_status()
             self.access_token = r.json()["access_token"]
         except:
-            logging.exception("Unable to authenticate")
+            logging.exception(f"Unable to authenticate - possibly because the access token {self.auth_token} needs updating.")
             raise
 
     def get_circles(self) -> list[str]:
