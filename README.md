@@ -51,3 +51,10 @@ To get a dashboard similar to the below one, download the [template](grafana/das
 * `Member_1` to `Member_4`: names of the circle members of interest. Delete extra panels if fewer than 4 members, duplicate one if more.
 
 ![Grafana dashboard](grafana/dashboard.png)
+
+## Known issues
+
+Sometimes, Life360 updates the access token that's used in life360/auth_token of config.toml.
+When that happens, requests will fail with `403 Client Error: Forbidden for url: https://api.life360.com/v3/oauth2/token.json`.
+
+Fix is to update this app/docker container (if available) or google the old access token (hoping one of the hits will provide the new one)
