@@ -1,9 +1,16 @@
+# This template file should be left untouched 
+# The app will in order:
+# 1. Read this file (template.config.toml)
+# 2. Overwrite the settings with those in file config.toml (it it exists)
+# 3. Overwrite the settings with environment variables called "LIFE360_INFLUX_<SECTION>_<KEY>"
+#    For example, set the env var LIFE360_INFLUX_LOG_VERBOSITY to DEBUG to overwrite the log verbosity
 
 [life360]
-username = "user@email.com"    # Life360 login.
-password = "strong password"   # Life360 password.
-circle_ids = []                # Optional. List of circles to process. If not specified, app will query the list of circles
-# Shouldn't need to change the below entries
+username = "user@email.com"  # Life360 login.
+password = "strong password" # Life360 password.
+# Optional. List of circles to process. If not specified, app will query the list of circles
+circle_ids = []
+# Shouldn't need to change the below entries; therefore don't need to set them to config.toml or env vars
 auth_token = "Y2F0aGFwYWNyQVBoZUtVc3RlOGV2ZXZldnVjSGFmZVRydVl1ZnJhYzpkOEM5ZVlVdkE2dUZ1YnJ1SmVnZXRyZVZ1dFJlQ1JVWQ=="
 base_url = "https://api-cloudfront.life360.com/v3/"
 user_agent = "com.life360.android.safetymapd"
@@ -13,14 +20,13 @@ circle_url = "circles/"
 
 # Create org, bucket & token by navigating to your influx url from a browser
 [influx]
-url = "http://localhost:8086"  # Location of influxdb v2 server
-bucket = "Life360"             # Name of available bucket
-token = "super-secret-token"   # Token with write permission to bucket
-org = "your org in influx"     # Org of the bucket
-measurement = "location"       # Name to give to measurements
-no_op = false                  # Set to true for testing, in which case connection is tested but records are not imported
+url = "http://localhost:8086" # Location of influxdb v2 server
+bucket = "Life360"            # Name of available bucket
+token = "super-secret-token"  # Token with write permission to bucket
+org = "your org in influx"    # Org of the bucket
+measurement = "location"      # Name to give to measurements
+no_op = false                 # Set to true for testing, in which case connection is tested but records are not imported
 
 [main]
 log_verbosity = "INFO" # By increasing level of verbosity = FATAL, ERROR, WARNING, INFO, DEBUG.
 loop_seconds = 180     # Time to wait between two queries to Life360's backend. 0 to only query once
-

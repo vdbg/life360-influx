@@ -11,14 +11,17 @@ Allows for importing data from [Life360](https://www.life360.com/) to [InfluxDB]
 
 ## Setup
 
-### With Docker
+The app can be configured through config.toml, environment variables, or both.
+The provided examples do both.
+
+### With Docker & config file
 
 Dependency: Docker installed.
 
 1. Download and run the Docker image: `sudo docker run --name life360 -v config.toml:/app/config.toml vdbg/life360-influx:latest`
 2. Copy the template config file from the image: `sudo docker cp life360:/app/template.config.toml config.toml`
 3. Edit `config.toml` by following the instructions in the file
-4. Start the container again to verify the settings are correct: `sudo docker start life360 -i`
+4. Start the container again to verify the settings are correct: `sudo docker start life360 -i -e LIFE360_INFLUX_LOG_VERBOSITY=DEBUG`
 5. Once the settings are finalized, `Ctrl-C` to stop the container, `sudo docker container rm life360` to delete it
 6. Start the container with the final settings:
 
@@ -30,6 +33,25 @@ sudo docker run \
   --memory=100m \
   --pull=always \
   --restart=always \
+  vdbg/life360-influx:latest
+```
+
+### With Docker without config file
+
+Dependency: Docker installed.
+
+Inspect `template.config.toml` file for all the settings that need to be overriden. Command will look something like:
+
+```
+sudo docker run \
+  -d \
+  --name life360 \
+  --memory=100m \
+  --pull=always \
+  --restart=always \
+  -e LIFE360_INFLUX_LIFE360_USERNAME=user \
+  -e LIFE360_INFLUX_LIFE360_PASSWORD=password \
+  -e LIFE360_INFLUX_INFLUX_TOKEN=token \
   vdbg/life360-influx:latest
 ```
 
