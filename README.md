@@ -11,8 +11,8 @@ Allows for importing data from [Life360](https://www.life360.com/) to [InfluxDB]
 
 ## Setup
 
-The app can be configured through config.toml, environment variables, or both.
-The provided examples do both.
+The app reads the settings from `template.config.toml`, then `config.toml`` (if it exists), then environment variables.
+See `template.config.toml` for details.
 
 ### With Docker & config file
 
