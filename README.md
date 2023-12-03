@@ -21,7 +21,7 @@ Dependency: Docker installed.
 1. Download and run the Docker image: `sudo docker run --name life360 -v config.toml:/app/config.toml vdbg/life360-influx:latest`
 2. Copy the template config file from the image: `sudo docker cp life360:/app/template.config.toml config.toml`
 3. Edit `config.toml` by following the instructions in the file
-4. Start the container again to verify the settings are correct: `sudo docker start life360 -i -e LIFE360_INFLUX_LOG_VERBOSITY=DEBUG`
+4. Start the container again to verify the settings are correct: `sudo docker start life360 -i -e LIFE360_INFLUX_MAIN_LOG_VERBOSITY=DEBUG`
 5. Once the settings are finalized, `Ctrl-C` to stop the container, `sudo docker container rm life360` to delete it
 6. Start the container with the final settings:
 

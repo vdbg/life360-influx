@@ -5,7 +5,11 @@ from pathlib import Path
 
 
 class Config:
-    def __load__(file: str) -> dict[str, any]:
+    def __init__(self, file: str, prefix: str) -> None:
+        self._file = file
+        self._prefix = prefix
+
+    def __load__(self, file: str) -> dict[str, dict] | None:
         try:
             with open(Path(__file__).with_name(file), "rb") as config_file:
                 return tomllib.load(config_file)
@@ -13,13 +17,13 @@ class Config:
             logging.warning(f"Missing {e.filename}.")
         return None
 
-    def load(file: str, prefix: str) -> dict[str, any]:
-        ret = Config.__load__("template." + file)
+    def load(self) -> dict[str, dict]:
+        ret = self.__load__("template." + self._file)
         if not ret:
-            raise (f"File template.{file} required.")
+            raise Exception(f"File template.{self._file} required.")
 
         # overwrite template with config, if exists
-        config = Config.__load__(file)
+        config = self.__load__(self._file)
         if config:
             for k, v in config.items():
                 for kk, vv in v.items():
@@ -28,7 +32,7 @@ class Config:
         # overwrite with environment variables, if exist
         for k, v in ret.items():
             for kk, vv in v.items():
-                key = f"{prefix}_{k}_{kk}".upper()
+                key = f"{self._prefix}_{k}_{kk}".upper()
                 ret[k][kk] = os.environ.get(key, vv)
 
         return ret

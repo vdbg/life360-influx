@@ -25,7 +25,7 @@ if sys.version_info < (SUPPORTED_PYTHON_MAJOR, SUPPORTED_PYTHON_MINOR):
 
 
 try:
-    config = Config.load("config.toml", "life360_influx")
+    config = Config("config.toml", "life360_influx").load()
 
     main_conf = config["main"]
     logging.getLogger().setLevel(logging.getLevelName(main_conf["log_verbosity"]))
