@@ -3,12 +3,10 @@
 import platform
 import sys
 import time
-import tomllib
 import logging
 
 from influx import InfluxConnector
 from life360 import Life360Connector
-from pathlib import Path
 from config import Config
 
 logging.basicConfig(
