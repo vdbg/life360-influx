@@ -2,8 +2,9 @@
 # The app will in order:
 # 1. Read this file (template.config.toml)
 # 2. Overwrite the settings with those in file config.toml (it it exists)
-# 3. Overwrite the settings with environment variables called "LIFE360_INFLUX_<SECTION>_<KEY>"
-#    For example, set the env var LIFE360_INFLUX_LOG_VERBOSITY to DEBUG to overwrite the log verbosity
+# 3. Overwrite the settings with environment variables called "LIFE360_INFLUX_<SECTION>_<KEY>" 
+#    (with section and key uppercase), if these exist.
+#    For example, set the env var LIFE360_INFLUX_MAIN_LOG_VERBOSITY to DEBUG to overwrite the log verbosity
 
 [life360]
 username = "user@email.com"  # Life360 login.
