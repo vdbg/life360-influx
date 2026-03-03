@@ -72,7 +72,7 @@ class Life360Connector:
     def __make_request(self, url, retry: bool = True):
         try:
             self.authenticate()
-            r = requests.get(url, headers=self.__get_headers("bearer " + self.access_token),impersonate="realworld")
+            r = requests.get(url, headers=self.__get_headers("bearer " + self.access_token),impersonate="chrome110")
             r.raise_for_status()
             return r.json()
         except:
@@ -90,7 +90,7 @@ class Life360Connector:
 
         self.access_token = ""
         try:
-            r = requests.post(self.base_url + self.token_url, data=data, headers=self.__get_headers("Basic " + self.auth_token),impersonate="realworld")
+            r = requests.post(self.base_url + self.token_url, data=data, headers=self.__get_headers("Basic " + self.auth_token),impersonate="chrome110")
             r.raise_for_status()
             self.access_token = r.json()["access_token"]
         except:
