@@ -1,2 +1,3 @@
 influxdb-client
 requests
+curl_cffi
