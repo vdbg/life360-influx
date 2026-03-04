@@ -59,7 +59,7 @@ class Life360Connector:
         self.circle_url: str = conf["circle_url"]
         self.token_url: str = conf["token_url"]
         self.circle_ids: list[str] = conf["circle_ids"]
-        self.impersonate: list[str] = conf["impersonate"]
+        self.impersonate: str = conf["impersonate"]
         self.access_token: str = ""
 
     def __get_headers(self, auth: str) -> dict:
