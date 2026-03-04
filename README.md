@@ -8,6 +8,7 @@ Allows for importing data from [Life360](https://www.life360.com/) to [InfluxDB]
 - [Life360](https://www.life360.com/) credentials associated with an active circle.
 - A device with either [Docker](https://www.docker.com/) or Python 3.11+ installed.
 - [InfluxDB](https://en.wikipedia.org/wiki/InfluxDB) v2 installed on this device or another device, and a bucket created in influxDB.
+- A residential internet connection and NOT hosting on a VPS
 
 ## Setup
 
