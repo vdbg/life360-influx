@@ -18,6 +18,7 @@ user_agent = "com.life360.android.safetymapd"
 token_url = "oauth2/token.json"
 circles_url = "circles.json"
 circle_url = "circles/"
+impersonate = "chrome110" 
 
 # Create org, bucket & token by navigating to your influx url from a browser
 [influx]

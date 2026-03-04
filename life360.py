@@ -59,6 +59,7 @@ class Life360Connector:
         self.circle_url: str = conf["circle_url"]
         self.token_url: str = conf["token_url"]
         self.circle_ids: list[str] = conf["circle_ids"]
+        self.impersonate: list[str] = conf["impersonate"]
         self.access_token: str = ""
 
     def __get_headers(self, auth: str) -> dict:
@@ -72,7 +73,7 @@ class Life360Connector:
     def __make_request(self, url, retry: bool = True):
         try:
             self.authenticate()
-            r = requests.get(url, headers=self.__get_headers("bearer " + self.access_token),impersonate="chrome110")
+            r = requests.get(url, headers=self.__get_headers("bearer " + self.access_token),impersonate=self.impersonate)
             r.raise_for_status()
             return r.json()
         except:
@@ -90,7 +91,7 @@ class Life360Connector:
 
         self.access_token = ""
         try:
-            r = requests.post(self.base_url + self.token_url, data=data, headers=self.__get_headers("Basic " + self.auth_token),impersonate="chrome110")
+            r = requests.post(self.base_url + self.token_url, data=data, headers=self.__get_headers("Basic " + self.auth_token),impersonate=self.impersonate)
             r.raise_for_status()
             self.access_token = r.json()["access_token"]
         except:
