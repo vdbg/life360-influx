@@ -11,8 +11,9 @@ username = "user@email.com"  # Life360 login.
 password = "strong password" # Life360 password.
 # Optional. List of circles to process. If not specified, app will query the list of circles
 circle_ids = []
+
 # Shouldn't need to change the below entries; therefore don't need to set them to config.toml or env vars
-auth_token = "OWE5MDc4YTcxMjRkNjFkYjc1NGNjNzI4NjY2OTRkNWYwNDk2ODY2NDA6NjA2Nzk3MzkwODViYmMxZWY2ZjQyZjlmMDc3YjIwNTA"
+auth_token = "detect" # If this is set to detect the script will attempt to find the right auth_token
 base_url = "https://api-cloudfront.life360.com/v3/"
 user_agent = "com.life360.android.safetymapd"
 token_url = "oauth2/token.json"

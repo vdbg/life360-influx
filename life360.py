@@ -1,10 +1,11 @@
 from datetime import datetime, timezone
 from curl_cffi import requests
 import logging
+import re
+from urllib.parse import urljoin
 
 # Docs for life 360 apis: https://krconv.github.io/life360-api-docs/
 # Inspired from https://github.com/harperreed/life360-python/blob/master/life360.py
-
 
 class Member:
     def __init__(self, conf: dict) -> None:
@@ -61,7 +62,7 @@ class Life360Connector:
         self.circle_ids: list[str] = conf["circle_ids"]
         self.impersonate: str = conf["impersonate"]
         self.access_token: str = ""
-
+ 
     def __get_headers(self, auth: str) -> dict:
         return {
             "Accept": "application/json",
@@ -82,10 +83,44 @@ class Life360Connector:
                 self.authenticate(True)
                 return self.__make_request(url, False)
             raise
+        
+    def findBasicAuth(self) -> bool:
+        BASE = "https://www.life360.com/en-gb/login"
+        SITE = "https://www.life360.com"
+
+        # Step 1: get login page
+        html = requests.get(BASE, impersonate=self.impersonate).text
+        # Step 2: find Next.js chunk JS files
+        chunks = re.findall(r'src="(/_next/static/chunks/[^"]+\.js)"', html)
+
+        token = None
+
+        for chunk in chunks:
+            url = urljoin(SITE, chunk)
+
+            js = requests.get(url, impersonate=self.impersonate).text
+
+            m = re.search(r'"basicToken":"([^"]+)"', js)
+            if m:
+                token = m.group(1)
+                logging.debug(f"Found token '{token}' in: {url}")
+                break
+
+        if token:
+            self.auth_token = token
+            return True
+        else:
+            return False
 
     def authenticate(self, force: bool = False) -> None:
         if self.access_token and not force:
             return
+
+        if self.auth_token == "detect":
+            logging.debug(f"Detecting Basic auth from Life360 assets.")
+            if not self.findBasicAuth():
+                logging.exception(f"Unable to detect basic auth.")
+                raise
 
         data = {"grant_type": "password", "username": self.username, "password": self.password}
 
